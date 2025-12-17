@@ -2,6 +2,7 @@ from typing import List
 from datetime import datetime
 from db.models import Ticket, User, Order, MovieSession
 from django.db import transaction
+from django.db.models import QuerySet
 
 
 @transaction.atomic
@@ -19,14 +20,15 @@ def create_order(tickets: List[dict],
 
     for ticket_dic in tickets:
 
+        row = ticket_dic.get("row")
+        seat = ticket_dic.get("seat")
+        movie_session_id = ticket_dic.get("movie_session")
+
         try:
-            row = ticket_dic.get("row")
-            seat = ticket_dic.get("seat")
-            movie_session_id = ticket_dic.get("movie_session")
             movie_session = MovieSession.objects.get(id=movie_session_id)
 
-        except KeyError as e:
-            print(e)
+        except Exception as e:
+            print(f"Other exception occurred: {type(e).__name__} - {e}")
 
         ticket = Ticket.objects.create(
             movie_session=movie_session,
@@ -39,7 +41,7 @@ def create_order(tickets: List[dict],
     return created_tickets
 
 
-def get_orders(username: str = None) -> Order:
+def get_orders(username: str = None) -> QuerySet :
     orders = Order.objects.all()
     if username:
         orders = orders.filter(user__username=username)
