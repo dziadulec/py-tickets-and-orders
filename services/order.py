@@ -39,7 +39,7 @@ def create_order(tickets: List[dict],
     return ticket
 
 
-def get_orders(username: str = None):
+def get_orders(username: str = None) -> Order:
     orders = Order.objects.all()
     if username:
         orders = orders.filter(user__username=username)
