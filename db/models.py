@@ -73,6 +73,12 @@ class Order(models.Model):
         on_delete=models.CASCADE
     )
 
+    def __str__(self) -> str:
+        return str(self.created_at)
+
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class Ticket(models.Model):
     movie_session = models.ForeignKey(MovieSession, on_delete=models.CASCADE)
@@ -82,7 +88,7 @@ class Ticket(models.Model):
 
     def __str__(self) -> str:
         return (
-            f"Ticket: {self.movie_session.movie} "
+            f"{self.movie_session.movie} "
             f"{self.movie_session.show_time}"
             f" (row: {self.row}, seat: {self.seat})"
         )
@@ -113,7 +119,7 @@ class Ticket(models.Model):
                 {
                     "seat": [
                         f"seat number must be in available range: "
-                        f"(1, seats): "
+                        f"(1, seats_in_row): "
                         f"(1, {cinema_seats})"
                     ]
                 }
