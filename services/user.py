@@ -29,6 +29,7 @@ def get_user(user_id: int) -> User:
 
 def update_user(
         user_id: int,
+        username: str = None,
         password: str = None,
         email: str = None,
         first_name: str = None,
@@ -36,6 +37,8 @@ def update_user(
 ) -> User:
     user = get_user(user_id)
 
+    if username:
+        user.username = username
     if password:
         user.set_password(password)
     if email:
