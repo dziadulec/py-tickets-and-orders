@@ -36,7 +36,7 @@ def create_order(tickets: List[dict],
         )
         created_tickets.append(ticket)
 
-    return ticket
+    return created_tickets
 
 
 def get_orders(username: str = None) -> Order:
